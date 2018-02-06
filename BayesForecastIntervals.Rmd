@@ -7,6 +7,7 @@ output: markdowntemplates::skeleton
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(tidy = TRUE, fig.align='center')
 library(bayesreg)
 library(ggplot2)
 ```
@@ -28,17 +29,21 @@ y_t=0.3+0.5y_{t-1}+\epsilon_t
 
 where $\epsilon_t \sim N(0,1)$
 
-We can simulate one instance of this process of length T=500
+We simulate one instance of this process of length T=500
 ```{r sim1, echo=T}
 set.seed(216) #Specify seed for reproducibility
 ts.length <- 500 #Length of simulated time series
 ts.burn <- ts.length #Length of burn-in period to discard
-y <- rnorm(ts.length,0,1) #Initiate vector for time series of length 500
-e <- rnorm(ts.length,0,1) #Initiate vector of Gaussian Errors
-for(t in 2:ts.length) y[t]=0.3+0.5*y[t-1]+e[t]
+y <- rnorm(ts.length+ts.burn,0,1) #Initiate vector for time series of length 500
+e <- rnorm(ts.length+ts.burn,0,1) #Initiate vector of Gaussian errors
+for(t in 2:(ts.length+ts.burn)) y[t] <- 0.3+0.5*y[t-1]+e[t] #Obtain realization of ARMA(0,1) process
+y <- y[-(1:ts.burn)] #Remove burn-in period
 ```
 
-
+which is visually depicted below:
+```{r sim1plot, echo=FALSE}
+plot(y,type="l",lwd=1.5,xlab="Time",ylab="")
+```
 
 
 ## Including Plots
