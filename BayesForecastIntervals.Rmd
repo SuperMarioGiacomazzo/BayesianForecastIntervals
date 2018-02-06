@@ -3,6 +3,8 @@ title: "Bayesian Forecast Intervals"
 author: "Super Mario Giacomazzo"
 date: "February 6, 2018"
 output: markdowntemplates::skeleton
+header-includes:
+   - \usepackage{bbm,bm}
 ---
 
 ```{r setup, include=FALSE}
@@ -12,9 +14,9 @@ library(bayesreg)
 library(ggplot2)
 ```
 
-## Introduction
+## Motivation
 
-
+The purpose of time series analysis is to forecast future values of a variable given 
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
@@ -43,6 +45,12 @@ y <- y[-(1:ts.burn)] #Remove burn-in period
 which is visually depicted below:
 ```{r sim1plot, echo=FALSE}
 plot(y,type="l",lwd=1.5,xlab="Time",ylab="")
+```
+
+The `bayesreg` package can be utilized to obtain posterior distributions for the full parameter vector $\mathbf{\theta}=[\mu,\alpha_1,\sigma^2]$
+
+```{r sim1est, echo=T}
+
 ```
 
 
